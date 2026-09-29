@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-29T11:43:25.083Z",
+  "mode": "offline file://",
+  "browser": "146.0.7680.167",
+  "checks": [
+    "Offline file:// startup, empty history, desktop layout",
+    "d′/c/prior linked model, zero sensitivity, boundary SVGs",
+    "Six practice trials excluded; formal configuration preserved",
+    "Sample input ignored, pause discards stimulus, duplicate answers ignored",
+    "Hidden tab pauses; Escape resumes without inventing an answer",
+    "Window blur pauses an unfinished trial",
+    "20-trial all-yes round, exact prior quotas, finite corrected statistics",
+    "Two-round strategy challenge, matched conditions, comparison and CSV export",
+    "Completed sessions survive reload in this browser",
+    "Malformed import rejected without losing existing records",
+    "JSON export/clear/import round trip",
+    "390px mobile pages have no horizontal overflow",
+    "Incomplete round exit does not save a result",
+    "Default 40-trial round completes and automatically exits fullscreen",
+    "Storage disabled: page still works with in-memory fallback",
+    "No browser console errors"
+  ],
+  "errors": []
+}

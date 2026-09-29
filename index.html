@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="在一页纸里辨认若隐若现的月牙水印。一个关于敏感性与判断标准的信号检测论实验。">
+  <title>纸上幽灵 · 水印观察室</title>
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="sdt.js"></script>
+  <script defer src="stimulus.js"></script>
+  <script defer src="storage.js"></script>
+  <script defer src="charts.js"></script>
+  <script defer src="game.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <header class="site-header">
+    <a class="brand" href="#home" data-view="home" aria-label="纸上幽灵，回到工作台">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true"><path d="M27 5a16 16 0 1 0 8 27A15 15 0 0 1 27 5Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 34h25M10 37h25" stroke="currentColor" stroke-width=".8"/></svg>
+      <span>水印观察室<small>纸上幽灵</small></span>
+    </a>
+    <nav class="nav" aria-label="主要页面">
+      <button class="nav-button" data-view="home" aria-current="page">工作台</button>
+      <button class="nav-button" data-view="lab">原理实验台</button>
+      <button class="nav-button" data-view="history">观察记录 <span id="history-count" class="nav-count">0</span></button>
+    </nav>
+    <span class="header-note">工程心理学 · 信号检测实验</span>
+  </header>
+
+  <main id="main" class="shell">
+    <section id="home" class="screen" aria-labelledby="home-title">
+      <div class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="small-rule"></span>古籍修复室 / 水印观察</p>
+          <h1 id="home-title" class="hero-title">纸上<span>幽灵</span><i aria-hidden="true">一</i></h1>
+          <p class="hero-intro">有些痕迹，只有透过光才能看见。<br>看一眼纸页，判断其中有没有月牙水印。</p>
+          <div class="hero-actions">
+            <button id="start-btn" class="button button-primary">先练习一下 <span aria-hidden="true">↗</span></button>
+            <button id="direct-start" class="text-button">直接开始正式观察</button>
+          </div>
+          <div class="hero-facts"><span><b id="home-count">40</b> 张纸页</span><span><b>1</b> 秒观察</span><span>不限作答时间</span></div>
+        </div>
+        <div class="hero-art">
+          <div class="corner-note">透光检查<small>合成纸样 · 月牙纹</small></div>
+          <div class="lightbox">
+            <span class="brass-clip" aria-hidden="true"></span>
+            <div id="home-canvas-slot" class="paper-mount"><canvas id="paper-canvas" width="600" height="420" role="img" aria-label="示例纸页，中间可见月牙形水印"></canvas></div>
+            <div class="paper-caption"><span>纸样 000</span><span>月牙水印 / 透射光</span><span aria-hidden="true">＋</span></div>
+          </div>
+          <p class="art-note">正式观察时，水印会更淡，纸里的噪声也会更多。</p>
+        </div>
+      </div>
+
+      <div class="setup-panel">
+        <div class="section-heading"><div><span class="eyebrow">本次观察</span><h2>把灯调好，就开始。</h2></div><button id="challenge-start" class="text-button">试试两局对照 <span aria-hidden="true">↗</span></button></div>
+        <form id="settings-form" class="settings-grid">
+          <label class="field" for="trial-count"><span>纸页数量</span><select class="form-select" id="trial-count"><option value="20">20 张 · 快速观察</option><option value="40" selected>40 张 · 标准观察</option><option value="80">80 张 · 多一些样本</option></select></label>
+          <label class="field" for="difficulty"><span>水印辨认难度</span><select class="form-select" id="difficulty"><option value="6">清晰 · 生成 d′ = 6</option><option value="4" selected>适中 · 生成 d′ = 4</option><option value="2">微弱 · 生成 d′ = 2</option></select></label>
+          <label class="field" for="prior"><span>有水印的比例 P(S)</span><select class="form-select" id="prior"><option value="0.25">25% · 较少</option><option value="0.5" selected>50% · 一半</option><option value="0.75">75% · 较多</option></select></label>
+          <label class="field" for="mission"><span>观察任务</span><select class="form-select" id="mission"><option value="standard">日常观察 · 两种错误同等对待</option><option value="survey">线索普查 · 尽量别漏掉</option><option value="confirm">证据确认 · 谨慎报有</option></select></label>
+        </form>
+        <p id="mission-note" class="mission-note">每次只判断“有”或“无”。拿不准时，也请选更接近你印象的答案。</p>
+      </div>
+      <div class="home-bottom"><p class="method-note">纸纹有时很像水印，真正的水印也可能看不清。观察结束后，我们会分别看你的辨认能力和判断倾向。</p><p class="small-note">纸样由程序生成。练习不计分，记录只保存在本机。</p></div>
+    </section>
+
+    <section id="play" class="screen" hidden aria-labelledby="play-title">
+      <div class="play-heading"><div><p id="batch-label" class="batch-label">练习</p><h1 id="play-title">先认一认这枚月牙。</h1></div><div class="play-toolbar"><button id="pause-btn" class="button button-secondary">暂停</button><button id="exit-btn" class="text-button">结束本次</button></div></div>
+      <div class="play-workspace">
+        <div class="stage-topline"><span id="task-label">不计入正式记录</span><span id="trial-counter" class="trial-counter">1 / 6</span></div>
+        <div class="progress-track" role="progressbar" aria-label="观察进度" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0"><div id="progress-fill" class="progress-fill"></div></div>
+        <div class="stage-frame"><div id="play-canvas-slot" class="stage-canvas"></div><div class="stage-bottomline"><span id="phase-label">请看纸页中央</span><span id="exposure-label">呈现 1,000 毫秒</span></div></div>
+        <p id="stage-message" class="stage-message" role="status" aria-live="polite">准备好了吗？</p>
+        <div class="answer-controls"><button id="answer-no" class="answer-button" disabled><span class="keycap" aria-hidden="true">←</span><span>没有水印</span></button><button id="answer-yes" class="answer-button" disabled><span>有月牙水印</span><span class="keycap" aria-hidden="true">→</span></button></div>
+        <div id="practice-feedback" class="feedback" hidden><p id="feedback-text"></p><button id="practice-next" class="button button-primary">下一张</button></div>
+        <p class="play-help">纸页消失后再回答。也可以用键盘 ← / →；按 P 暂停，F 全屏。</p>
+      </div>
+    </section>
+
+    <section id="results" class="screen" hidden aria-labelledby="results-title">
+      <div class="page-heading"><div><p id="result-kicker" class="eyebrow">本次观察已归档</p><h1 id="results-title">这批纸页，看完了。</h1><p id="result-condition" class="muted"></p></div><button id="result-csv" class="button button-secondary">导出本次记录</button></div>
+      <div id="result-summary" class="result-summary"></div>
+      <p id="result-interpretation" class="interpretation"></p>
+      <div class="report-grid">
+        <article class="panel"><div class="panel-heading"><h2>每一次判断，落在哪里</h2><span class="small-note">真实情况 × 你的回答</span></div><div id="confusion" class="confusion"></div><p class="small-note">准确率使用原始计数。练习与中断试次均未计入。</p></article>
+        <article class="panel"><div class="panel-heading"><h2>本次观察点</h2><button class="text-button" data-view="lab">到实验台调一调 ↗</button></div><div id="result-roc" class="chart-root"></div><p class="small-note">菱形是你的实际比例，圆点是理论预测。曲线使用当前生成条件，不是由一个点拟合出的实测 ROC。</p></article>
+      </div>
+      <details class="details"><summary>这些数是怎么算的？</summary><div id="calculation-details"></div></details>
+      <details class="details"><summary>查看每张纸页的记录</summary><div id="trial-details" class="table-scroll"></div></details>
+      <p id="result-storage-note" class="small-note"></p>
+      <div class="result-actions"><button id="result-again" class="button button-primary">相同条件，再看一批</button><button id="result-next-challenge" class="button button-primary" hidden>继续第二局</button><button id="result-compare" class="button button-secondary">对比观察记录</button><button class="text-button" data-view="home">返回工作台</button></div>
+    </section>
+
+    <section id="lab" class="screen" hidden aria-labelledby="lab-title">
+      <div class="page-heading"><div><p class="eyebrow">原理实验台</p><h1 id="lab-title">看清楚，和敢确认，是两件事。</h1><p class="muted">拖动下面的滑块，看命中与虚报怎样一起变化。</p></div><button id="lab-reset" class="text-button">恢复默认</button></div>
+      <div class="lab-layout">
+        <aside class="lab-controls">
+          <label class="field" for="lab-d"><span class="range-row">模型敏感性 d′ <output id="lab-d-value" for="lab-d">2.0</output></span><input id="lab-d" type="range" min="0" max="6" step="0.1" value="2"><small>数值越大，两类越容易分开。</small></label>
+          <label class="field" for="lab-c"><span class="range-row">判断标准 c <output id="lab-c-value" for="lab-c">0.0</output></span><input id="lab-c" type="range" min="-3" max="3" step="0.1" value="0"><small>左侧更愿意报有，右侧更谨慎。</small></label>
+          <label class="field" for="lab-prior"><span class="range-row">有水印的比例 <output id="lab-prior-value" for="lab-prior">50%</output></span><input id="lab-prior" type="range" min="0.1" max="0.9" step="0.05" value="0.5"><small>改变两类的数量，不直接改变它们的可区分程度。</small></label>
+          <p class="small-note">这里调的是理论模型。你的实际判断标准，要从作答结果估计；滑块不会修改观察记录。</p>
+          <div id="lab-metrics" class="lab-metrics"></div>
+        </aside>
+        <div class="chart-grid">
+          <article class="chart-panel wide"><div class="panel-heading"><h2>两类纸页的证据分布</h2><span class="small-note">等方差正态模型</span></div><div id="distribution-chart" class="chart-root"></div></article>
+          <article class="chart-panel"><div class="panel-heading"><h2>命中与虚报的取舍</h2><span class="small-note">ROC</span></div><div id="roc-chart" class="chart-root"></div></article>
+          <article class="chart-panel"><div class="panel-heading"><h2>如果观察 100 张纸</h2><span class="small-note">模型预期</span></div><div id="outcomes-chart" class="chart-root"></div></article>
+        </div>
+      </div>
+      <details class="details"><summary>关于模型和实际作答</summary><p>模型假设两类证据服从方差相同的正态分布。改变 d′ 会改变整条 ROC；只改变 c 时，理论点沿同一条曲线移动。这里使用以两分布中点为零的坐标，所以判断线的位置就是 c。</p><p>一局“有／无”回答只产生一个实测 ROC 点。真实视觉、注意和小样本波动会影响结果，因此生成 d′ 不等于你的估计 d′。即使两局条件相同，结果也可能不同。</p></details>
+    </section>
+
+    <section id="history" class="screen" hidden aria-labelledby="history-title">
+      <div class="page-heading"><div><p class="eyebrow">观察记录</p><h1 id="history-title">把几次判断放在一起看。</h1><p class="muted">选两到三次，比较敏感性、判断标准和错误分布。</p></div></div>
+      <div class="history-toolbar"><button id="export-json" class="button button-secondary">保存全部记录</button><button id="import-json" class="button button-secondary">导入记录</button><input id="import-file" type="file" accept=".json,application/json" hidden><button id="export-csv" class="text-button">导出表格 CSV</button><button id="clear-history" class="text-button danger-button">清空记录</button></div>
+      <p id="history-storage-note" class="small-note"></p>
+      <div id="session-list" class="session-list"></div>
+      <div id="comparison-section" hidden><div class="section-heading"><h2>这几次，有什么不同</h2><span id="selection-count" class="small-note"></span></div><p id="comparison-note" class="mission-note"></p><div id="comparison-chart" class="comparison"></div><div id="comparison-table" class="table-scroll"></div></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><span>纸上幽灵 · 水印观察室</span><span>信号检测论 / 工程心理学</span><button id="about-btn" class="text-button">实验说明</button></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="modal" class="dialog" aria-labelledby="modal-title"><div class="dialog-inner"><p id="modal-kicker" class="eyebrow"></p><h2 id="modal-title"></h2><div id="modal-body"></div><div id="modal-actions" class="dialog-actions"></div></div></dialog>
+  <noscript>这个实验需要 JavaScript。请在浏览器设置中启用后重新打开。</noscript>
+</body>
+</html>
